@@ -3,6 +3,13 @@
     <head>
         <meta charset="UTF-8">
         <title>M.eat.ogether-외롭지 않은 식사문화 미팃투게더</title>
+        <!-- Bootstrap cdn 카로셀 설정333333333333333333 -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <!--333333333333333333끝-->
 
 
         <style>
@@ -15,9 +22,26 @@
                 width: 1in
             }
 
-            .MainLogo {
-                background-image: url("https://ibb.co/b5qZtNd");
-                background-size: contain;
+            /*.MainLogo {*/
+            /*    background-image: url("https://i.ibb.co/8gTpkP8/meateatogether.jpg");*/
+            /*    background-size: contain;*/
+            /*}*/
+            /*위에 이게 틀렸던 이유는 바로 내가 이미지의 주소가 아닌 뷰어의 주소를 복사해왔기 때문이다*/
+
+            .main-wrapper {
+                width: 800px;
+                margin: 0 auto;
+
+            }
+
+            .main-logo {
+                width: 100%;
+            }
+
+            /*이건 내 그림을 크기를 맞추기 위함이야 */
+
+            a.carousel-control {
+                opacity: 0;
             }
 
 
@@ -27,17 +51,122 @@
     </head>
 
     <body>
-        <!--먼저 맨 위에 박을 로고 부터!!!-->
-        <div class="MainLogo">
-<!--            <img src="C:\Users\dlwpt\Desktop\Sparta"/>-->
 
-<!--            아 왜 이미지가 다 안나오지 뭐가 문제일까-->
-
-
-        </div>
+        <div class="main-wrapper"><!--안녕 범위지정은 컨트롤 쉬프트 슬래시  혹은 그냥 꺽쇠 느낌표 선선 그리면 돼-->
+            <img class="main-logo" src="https://i.ibb.co/8gTpkP8/meateatogether.jpg"/>
+            <!--            원래  <img src='이미지 주소'였는데 부모 안에 넣으려고 이게 만들어 진거야-->
 
 
-        <div>
+            <div> <!-- 333333333333333333과 연결됨이미지 창을 긁어 오자 크로우셀!!!-->
+                <!-- carousel를 구성할 영역 설정 -->
+                <div style="width: 80%">
+                    <!-- carousel를 사용하기 위해서는 class에 carousel와 slide 설정한다. -->
+                    <!-- carousel는 특이하게 id를 설정해야 한다.-->
+                    <div id="carousel-example-generic" class="carousel slide">
+                        <!-- carousel의 지시자 -->
+                        <!-- 지시자라고는 하는데 ol태그의 class에 carousel-indicators를 넣는다. -->
+                        <ol class="carousel-indicators">
+                            <!-- li는 이미지 개수만큼 추가하고 data-target은 carousel id를 가르킨다.////나는 5개로 제한할거 니까 5개는 해야지 -->
+                            <!-- data-slide-to는 순서대로 0부터 올라가고 0은 active를 설정한다. -->
+                            <!-- 딱히 이 부분은 옵션별로 설정하게 없다. -->
+                            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="4"></li>
+                        </ol>
+                        <!-- 실제 이미지 아이템 -->
+                        <!-- class는 carousel-inner로 설정하고 role은 listbox에서 설정한다. -->
+                        <div class="carousel-inner" role="listbox">
+                            <!-- 이미지의 개수만큼 item을 만든다. 중요한 포인트는 carousel-indicators의 li 태그 개수와 item의 개수는 일치해야 한다. -->
+                            <div class="item active">
+                                <!-- 아미지 설정- -->
+                                <img src="https://i.ibb.co/3dvsFTj/11111111111111111111111111111111111111111111.png"
+                                     style="width:100%">
+                                <!-- 캡션 설정 (생략 가능) -->
+                                <!-- 글자 색은 검은색 -->
+                                <div class="carousel-caption" style="color:black;">
+                                    제승이여 1/5
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img src="https://i.ibb.co/CzjBsZ6/22222222222222222222222222222222222222222222.png"
+                                     style="width:100%">
+                                <div class="carousel-caption" style="color:black;">
+                                    내맘이여 2/5
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img src="https://i.ibb.co/vJgkMzs/3333333333333333333333333333333333333.png"
+                                     style="width:100%">
+                                <div class="carousel-caption" style="color:black;">
+                                    내가 원하는 사진 어케 끌고 오지 3/5
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img src="https://i.ibb.co/dB6WwmX/44444444444444444444444444444444444.png"
+                                     style="width:100%">
+                                <div class="carousel-caption" style="color:black;">
+                                    4/5
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img src="https://i.ibb.co/2cvrM1b/5555555555555555555555555555555555555.png"
+                                     style="width:100%">
+                                <div class="carousel-caption" style="color:black;">
+                                    5/5
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 왼쪽 화살표 버튼 -->
+                        <!-- href는 carousel의 id를 가르킨다. -->
+                        <a class="left carousel-control" href="#carousel-example-generic" role="button"
+                           data-slide="prev">
+                            <!-- 왼쪽 화살표 -->
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        </a>
+                        <!-- 오른쪽 화살표 버튼 -->
+                        <!-- href는 carousel의 id를 가르킨다. -->
+                        <a class="right carousel-control" href="#carousel-example-generic" role="button"
+                           data-slide="next">
+                            <!-- 오른쪽 화살표 -->
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                </div>
+                <!--333333333333333333끝>-->
+
+
+                <!--사진 넘기기는 carousel 이용하면 된다 -->
+
+
+                <h1> 상호명 포함한 게시글 제목!!!</h1>
+
+                <div> <!-- 여기가 인원 시간 가격 메뉴 그리고 언제 글 올라왔는지 아이콘 뜨는 코드-->
+                    <h3><p><img src="https://cdn.icon-icons.com/icons2/1145/PNG/512/manshapeoutline_81107.png"
+                                style="width:3%"> 4명
+                        <img src="https://cdn.icon-icons.com/icons2/2406/PNG/512/clock_watch_icon_146004.png"
+                             style="width:3%"> 3시
+
+                        <img src="https://cdn.icon-icons.com/icons2/1416/PNG/512/ecommerce-won_97908.png"
+                             style="width:3%"> 10000~20000
+
+                        <img src="https://cdn.icon-icons.com/icons2/549/PNG/512/1455739676_Kitchen_Bold_Line_Color_Mix-39_icon-icons.com_53414.png"
+                             style="width:3%"> 닭고기
+
+
+                        <h4>그리고 글 올린지 얼마나 글 올린지 얼마나 됐누누</h4>
+                    </h3>
+
+                    </p>
+
+
+                </div>
+
+
+            </div>
+
+
             <h3> 등록! 저도 갈래요. </h3>
             <div>
                 <p> 예약명: <input type="text" class="shortsizetext"> 번호: <input type="text">
