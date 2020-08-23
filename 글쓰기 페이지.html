@@ -2,9 +2,108 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Title</title>
+        <title>M.eat.ogether-외롭지 않은 식사문화 미팃투게더</title>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+              crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css2?family=Sunflower:wght@500&display=swap" rel="stylesheet">
+
+        <style>
+            .main-wrapper {
+                width: 800px;
+                margin: 0 auto;
+
+            }
+
+            .main-logo {
+                width: 100%;
+            }
+
+            .longsizetext {
+                width: 6in
+            }
+            *{font-family: 'Sunflower', sans-serif;}
+        </style>
+
+
     </head>
     <body>
-        
+
+        <div class="main-wrapper"><!--안녕 범위지정은 컨트롤 쉬프트 슬래시  혹은 그냥 꺽쇠 느낌표 선선 그리면 돼-->
+            <img class="main-logo" src="https://i.ibb.co/8gTpkP8/meateatogether.jpg"/>
+
+
+            <h1> 글쓰기 페이지</h1>
+            <p>
+
+
+                Title: <input type="text" class="longsizetext">
+                (식당 상호명 기입 필수!)
+            </p>
+
+            <div class="col-sm-5">
+                <p> 인원수
+                    <select class="custom-select" id="order-count">
+                        <option selected value=""> 몇명이서 먹을깡?</option>
+                        <option value="1">2 명</option>
+                        <option value="2">2~3 명</option>
+                        <option value="3">3~4 명</option>
+                        <option value="4">4~5 명</option>
+                        <option value="5">5~ 명</option>
+
+
+                    </select></p>
+
+
+                <p>시간 <select class="custom-select" id="order-count">
+                    <option selected value=""> 우리 언제 먹을깡?</option>
+                    <option value="1">오전 10~12시</option>
+                    <option value="2">오후 12 ~ 2시</option>
+                    <option value="3">오후 2~4시</option>
+                    <option value="4">오후 4~6시</option>
+                    <option value="5">오후 6~8시</option>
+                    <option value="6">오후 8~10시</option>
+                    <option value="7">오후 10~12시</option>
+                    <option value="8">오후 12~2시</option>
+
+
+                </select>
+                </p>
+                <p>가격 <select class="custom-select" id="order-count">
+                    <option selected value=""> 가격대는 어느정도??</option>
+                    <option value="1">8000 이하</option>
+                    <option value="2">8000~12000</option>
+                    <option value="3">12000~20000</option>
+                    <option value="4">20000~30000</option>
+                    <option value="5">30000~ 오예!!</option>
+
+
+                </select>
+                </p>
+                <p>메뉴 <select class="custom-select" id="order-count">
+                    <option selected value=""> 우리 뭐 먹을깡?</option>
+                    <option value="1">소고기</option>
+                    <option value="2">돼지고기</option>
+                    <option value="3">닭고기</option>
+                    <option value="4">회 & 해산물</option>
+                    <option value="5">기타</option>
+
+
+                    <!-- 사진 업로드 기능을 여기다가 만들어야 해!! 5개 제한을 설정해야 하구..-->
+
+
+                </select>
+                </p>
+            </div>
+            <div>
+                사진 업로드 기능을 여기에 넣고 넣었을때 아래에 하나씩 항목이 추가 되어야 함니다.
+
+
+            </div>
+            <button type="button"> 업로드</button>
+
+        </div>
     </body>
 </html>
