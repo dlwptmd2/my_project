@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
         <title>M.eat.ogether-외롭지 않은 식사문화 미팃투게더</title>
         <!-- Bootstrap cdn 카로셀 설정333333333333333333 -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -10,9 +13,119 @@
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
         <!--333333333333333333끝-->
-<link href="https://fonts.googleapis.com/css2?family=Sunflower:wght@500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Sunflower:wght@500&display=swap" rel="stylesheet">
 
 
+        <!-- JS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
+
+        <!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+
+        <!--        /*이제 부터 스크립트를 통해 api랑 연결*/-->
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                $("#showreservationlist").html("");
+                showReservation();
+            });
+
+            //이게 예약한 댓글 저장하는 기능// 함수는 버튼에 적용해서 먹여 버튼 아이디 리절베이견 이딴식으로//
+            function reservation() {
+                // 1. 제목, 저자, 리뷰 내용을 가져옵니다.
+                let personName1 = $('#personName').val();
+                let phoneNumb1 = $('#personNumb').val();
+                let ChatChat1 = $('#ChatChat').val();
+
+
+                if (personName1 == '') {
+                    alert('이름을 입력하세요.')
+                } else if (phoneNumb1 == '') {
+                    alert('번호를 입력해')
+                }
+
+                // 2-2. 만약에 빈 칸이면 alert을 띄워주세요.
+                else if (ChatChat1 == '') {
+                    alert('댓글을 입력하세요.')
+                }
+
+                // 2. 제목, 저자, 리뷰 중 하나라도 입력하지 않았을 경우 alert를 띄웁니다.
+                // 3. POST /review 에 저장을 요청합니다.
+                $.ajax({
+                    type: "POST",
+                    url: "/reservations",
+                    data: {
+                        name_give: personName1,
+                        phoneNumb_give: phoneNumb1,
+                        chat_give: ChatChat1
+
+                    },
+
+
+                    success: function (response) {
+                        if (response["result"] == "success") {
+                            alert(response["msg"]);
+                            window.location.reload();
+                        }
+                    }
+                })
+            }
+
+            function showReservation() {
+                // 1. 리뷰 목록을 서버에 요청하기
+                // 2. 요청 성공 여부 확인하기
+                // 3. 요청 성공했을 때 리뷰를 올바르게 화면에 나타내기
+                $.ajax({
+                    type: "GET",
+                    url: "/reservations",
+                    data: {},
+                    success: function (response) {
+
+                        // 2. 요청 성공 여부 확인하기
+                        if (response["result"] == "success") {
+                            let orders = response["DBreservations"];
+                            // 3. 요청 성공했을 때 리뷰를 올바르게 화면에 나타내기
+                            for (let i = 0; i < orders.length; i++) {
+                                myReservation(orders[i]["Name"], orders[i]["Phone"], orders[i]["chats"]);
+                            }
+                        } else {
+                            alert("리뷰를 받아오지 못했습니다");
+                        }
+                    }
+                })
+            }
+
+            //미ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣfor 문 돌려서 makeCard 다시 불러오기
+
+            //저장은 잘 되고 있으니 바로 위에서 for문 돌려서 아래있는 메이크 카드 불러오기
+            function myReservation(personName, phoneNumb, ChatChat) {
+                let tempHtml = `<tr>
+                        <td>${personName}</td>
+                        <td>${phoneNumb}</td>
+                        <td>${ChatChat}</td>
+
+                    </tr>`;
+                $("#showreservationlist").append(tempHtml);
+            }
+
+
+            //미ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣ
+            function validateLength(obj) {
+                let content = $(obj).val();
+                if (content.length > 140) {
+                    alert("리뷰는 140자까지 기록할 수 있습니다.");
+                    $(obj).val(content.substring(0, content.length - 1));
+                }
+            }
+
+            //////////////////////////////////////////////////
+
+        </script>
+
+
+        <!--    -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;    -->
         <style>
             .longsizetext {
                 width: 6in
@@ -34,7 +147,10 @@
                 margin: 0 auto;
 
             }
-             *{font-family: 'Sunflower', sans-serif;}
+
+            * {
+                font-family: 'Sunflower', sans-serif;
+            }
 
             .main-logo {
                 width: 100%;
@@ -45,7 +161,6 @@
             a.carousel-control {
                 opacity: 0;
             }
-
 
         </style>
 
@@ -135,6 +250,7 @@
                             <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                         </a>
                     </div>
+
                 </div>
                 <!--333333333333333333끝>-->
 
@@ -156,8 +272,6 @@
                         <img src="https://cdn.icon-icons.com/icons2/549/PNG/512/1455739676_Kitchen_Bold_Line_Color_Mix-39_icon-icons.com_53414.png"
                              style="width:3%"> 닭고기
 
-
-                        <h4>그리고 글 올린지 얼마나 글 올린지 얼마나 됐누누</h4>
                     </h3>
 
                     </p>
@@ -171,18 +285,45 @@
 
             <h3> 등록! 저도 갈래요. </h3>
             <div>
-                <p> 예약명: <input type="text" class="shortsizetext"> 번호: <input type="text">
+                <p> 예약명: <input type="text" class="shortsizetext" id="personName">
+                    번호: <input type="text"
+
+                               id="personNumb">
                 </p>
                 <!--                아 인풋타입 넘버로 하면 숫자칸 나오네 시발 ㅋㅋㅋㅋㅋ-->
                 <p>
-                    추가사항: <input type="text" class="longsizetext">
+                    댓글: <input type="text" class="longsizetext" id="ChatChat">
                     <!--                    클래스 쓸때 굳이 ;이거 안붙여도 되네-->
                 </p>
+            </div>
+            <div class="reservation">
+                <button onclick="reservation()" type="button" class="btn btn-primary">
+                    댓글달기
+                </button>
             </div>
 
 
         </div>
+        <div class="reviews-box">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col"> 예약명</th>
+                    <th scope="col"> 번호</th>
+                    <th scope="col">댓글</th>
+                </tr>
+                </thead>
+                <tbody id="showreservationlist">
+                <tr>
+                    <td>박르탄</td>
+                    <td>10000</td>
+                    <td>르탄시 코딩구 열심동</td>
+                    <td>010-1234-5678</td>
+                </tr>
 
+                </tbody>
+            </table>
+        </div>
 
     </body>
 
