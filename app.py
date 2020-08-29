@@ -104,7 +104,7 @@ def view_reservations():
 
 # 주문하기(POST) API
 @app.route('/upload', methods=['POST'])
-def save_reservation():  # 여길 채워나가세요!
+def save_uopload():  # 여길 채워나가세요!
     # 업로드 페이지 타이틀 가져오기
     upload_Title = request.form['Title_give']
     # 인원수 가져오기
