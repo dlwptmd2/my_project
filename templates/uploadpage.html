@@ -2,6 +2,8 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
         <title>M.eat.ogether-외롭지 않은 식사문화 미팃투게더</title>
 
         <!-- Bootstrap CSS -->
@@ -9,15 +11,132 @@
               integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
               crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/css2?family=Sunflower:wght@500&display=swap" rel="stylesheet">
+        <!-- JS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
+        <!--&22222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222225;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
 
-        <script>
-        function personalselections() { alert('검색중입니다')}
+        <!--        /*이제 부터 스크립트를 통해 /bo /afterchoose gu랑 연결*/-->
 
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#uploading-box").html("")
+            });
+
+            //이게 업로드 저장하는 부분이다.
+            function uploading() {
+                // 1. 제목, 저자, 리뷰 내용을 가져옵니다.
+                let TitleWrote = $('#TitleWW').val();
+                let HowmanyWrote = $('#HowmanyWW').val();
+                let TimeWrote = $('#TimeWW').val();
+                let PriceWrote = $('#PriceWW').val();
+                let MenuWrote = $('#MenuWW').val();
+                let ImgWrote = $('#ImgWW').val();
+
+
+                if (TitleWrote == '') {
+                    alert('제목 작성해.')
+                } else if (HowmanyWrote == '') {
+                    alert('인원수 기입해')
+                }else if (TimeWrote == '') {
+                    alert('시간 기입해')
+                }else if (PriceWrote == '') {
+                    alert('가격 기입해')
+                }else if (MenuWrote == '') {
+                    alert('메뉴 기입해')
+                }else if (ImgWrote == '') {
+                    alert('이미지 올려')
+                }
+
+
+
+                // 2. 제목, 저자, 리뷰 중 하나라도 입력하지 않았을 경우 alert를 띄웁니다.
+                // 3. POST /review 에 저장을 요청합니다.
+
+
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "/reservations",
+                    data: {
+                        Title_give: TitleWrote,
+                        Howmany_give: HowmanyWrote,
+                        Time_give: TimeWrote,
+                        Price_give: PriceWrote,
+                        Menu_give: MenuWrote,
+                        Img_give: ImgWrote
+
+                    },
+
+
+                    success: function (response) {
+                        if (response["result"] == "success") {
+                            alert(response["msg"]);
+                            window.location.reload();
+                        }
+                    }
+                })
+            }
+//222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
+//이 아래는 별개로 이미지 업로드 기능
+             function uploadImgPreview() {
+
+
+
+    	// @breif 업로드 파일 읽기
+
+    	let fileInfo = document.getElementById("upImgFile").files[0];
+
+    	let reader = new FileReader();
+
+
+
+        // @details readAsDataURL( )을 통해 파일을 읽어 들일때 onload가 실행
+
+        reader.onload = function() {
+
+
+
+            // @details 파일의 URL을 Base64 형태로 가져온다.
+
+            document.getElementById("thumbnailImg").src = reader.result;
+
+            document.getElementById("thumbnailUrl").innerText = reader.result;
+
+        };
+
+
+
+        // @details onload 대신 addEventListener( ) 사용가능
+
+    	// reader.addEventListener("load", function() {
+
+        //    document.getElementById("thumbnailImg").src = reader.result;
+
+        //    document.getElementById("thumbnailUrl").innerText = reader.result;
+
+    	// }, false);
+
+
+
+    	if( fileInfo ) {
+
+
+
+            // @details readAsDataURL( )을 통해 파일의 URL을 읽어온다.
+
+            reader.readAsDataURL( fileInfo );
+
+        }
+
+    }
+    //업로드 기능 끝끝
         </script>
 
-
-
-
+       <!-- 이미 완성된 코드 건들지 말것1111111-->
         <style>
             .main-wrapper {
                 width: 800px;
@@ -32,9 +151,12 @@
             .longsizetext {
                 width: 6in
             }
-            *{font-family: 'Sunflower', sans-serif;}
-        </style>
 
+            * {
+                font-family: 'Sunflower', sans-serif;
+            }
+        </style>
+        <!--222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222221-->
 
     </head>
     <body>
@@ -47,13 +169,13 @@
             <p>
 
 
-                Title: <input type="text" class="longsizetext">
+                Title: <input type="text" class="longsizetext" id="TitleWW">
                 (식당 상호명 기입 필수!)
             </p>
 
             <div class="col-sm-5">
                 <p> 인원수
-                    <select class="custom-select" id="order-count">
+                    <select class="custom-select" id="HowmanyWW">
                         <option selected value=""> 몇명이서 먹을깡?</option>
                         <option value="1">2 명</option>
                         <option value="2">2~3 명</option>
@@ -65,7 +187,7 @@
                     </select></p>
 
 
-                <p>시간 <select class="custom-select" id="order-count">
+                <p>시간 <select class="custom-select" id="TimeWW">
                     <option selected value=""> 우리 언제 먹을깡?</option>
                     <option value="1">오전 10~12시</option>
                     <option value="2">오후 12 ~ 2시</option>
@@ -79,7 +201,7 @@
 
                 </select>
                 </p>
-                <p>가격 <select class="custom-select" id="order-count">
+                <p>가격 <select class="custom-select" id="PriceWW">
                     <option selected value=""> 가격대는 어느정도??</option>
                     <option value="1">8000 이하</option>
                     <option value="2">8000~12000</option>
@@ -90,7 +212,7 @@
 
                 </select>
                 </p>
-                <p>메뉴 <select class="custom-select" id="order-count">
+                <p>메뉴 <select class="custom-select" id="MenuWW">
                     <option selected value=""> 우리 뭐 먹을깡?</option>
                     <option value="1">소고기</option>
                     <option value="2">돼지고기</option>
@@ -100,17 +222,28 @@
 
 
                     <!-- 사진 업로드 기능을 여기다가 만들어야 해!! 5개 제한을 설정해야 하구..-->
-
-
                 </select>
                 </p>
             </div>
-            <div>
-                사진 업로드 기능을 여기에 넣고 넣었을때 아래에 하나씩 항목이 추가 되어야 함니다.
+            <div id="ImgWW">
+                <!--업로드 기능은 여기-->
+                  <!-- @breif accept 태그는 파일 업로드시 그것을 이미지 파일로 제한한다. -->
+
+    <input type="file" id="upImgFile" onChange="uploadImgPreview();" accept="image/*">
+
+    <hr/>
+
+    <img id="thumbnailImg" src="">
+
+    <br/>
+
+    <div id="thumbnailUrl"></div>
 
 
             </div>
-            <button type="button"> 업로드</button>
+           <button onclick="uploading()" type="button" class="btn btn-primary">
+                업로드 하기
+            </button>
 
         </div>
     </body>
