@@ -116,7 +116,7 @@ def save_uopload():  # 여길 채워나가세요!
     # 메뉴 가져오기
     upload_Menu = request.form['Menu_give']
     # 사진 가져오기
-    upload_Img = request.form['Img_give']
+    # upload_Img = request.form['Img_give'] (튜터님이 생략하라 하심)
 
     # DB에 넣을 정보 하나 하나를 orderdata_one으로 지정하기
     Whattheywrote_one = {'Title': upload_Title,
@@ -124,7 +124,7 @@ def save_uopload():  # 여길 채워나가세요!
                        'Time': upload_Time,
                        'Price': upload_Price,
                        'Menu': upload_Menu,
-                       'Img': upload_Img,
+                       # 'Img': upload_Img,
 
                        }
 

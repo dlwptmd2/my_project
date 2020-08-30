@@ -40,27 +40,24 @@
                     alert('제목 작성해.')
                 } else if (HowmanyWrote == '') {
                     alert('인원수 기입해')
-                }else if (TimeWrote == '') {
+                } else if (TimeWrote == '') {
                     alert('시간 기입해')
-                }else if (PriceWrote == '') {
+                } else if (PriceWrote == '') {
                     alert('가격 기입해')
-                }else if (MenuWrote == '') {
+                } else if (MenuWrote == '') {
                     alert('메뉴 기입해')
-                }else if (ImgWrote == '') {
+                } else if (ImgWrote == '') {
                     alert('이미지 올려')
                 }
-
 
 
                 // 2. 제목, 저자, 리뷰 중 하나라도 입력하지 않았을 경우 alert를 띄웁니다.
                 // 3. POST /review 에 저장을 요청합니다.
 
 
-
-
                 $.ajax({
                     type: "POST",
-                    url: "/reservations",
+                    url: "/upload",
                     data: {
                         Title_give: TitleWrote,
                         Howmany_give: HowmanyWrote,
@@ -80,63 +77,127 @@
                     }
                 })
             }
-//222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
-//이 아래는 별개로 이미지 업로드 기능
-             function uploadImgPreview() {
+
+            //222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
+            //이 아래는 별개로 이미지 업로드 기능
+            function uploadImgPreview() {
 
 
+                // @breif 업로드 파일 읽기
 
-    	// @breif 업로드 파일 읽기
+                let fileInfo = document.getElementById("upImgFile").files[0];
 
-    	let fileInfo = document.getElementById("upImgFile").files[0];
-
-    	let reader = new FileReader();
-
+                let reader = new FileReader();
 
 
-        // @details readAsDataURL( )을 통해 파일을 읽어 들일때 onload가 실행
+                // @details readAsDataURL( )을 통해 파일을 읽어 들일때 onload가 실행
 
-        reader.onload = function() {
-
-
-
-            // @details 파일의 URL을 Base64 형태로 가져온다.
-
-            document.getElementById("thumbnailImg").src = reader.result;
-
-            document.getElementById("thumbnailUrl").innerText = reader.result;
-
-        };
+                reader.onload = function () {
 
 
+                    // @details 파일의 URL을 Base64 형태로 가져온다.
 
-        // @details onload 대신 addEventListener( ) 사용가능
+                    document.getElementById("thumbnailImg").src = reader.result;
 
-    	// reader.addEventListener("load", function() {
+                    document.getElementById("thumbnailUrl").innerText = reader.result;
 
-        //    document.getElementById("thumbnailImg").src = reader.result;
-
-        //    document.getElementById("thumbnailUrl").innerText = reader.result;
-
-    	// }, false);
+                };
 
 
+                // @details onload 대신 addEventListener( ) 사용가능
 
-    	if( fileInfo ) {
+                // reader.addEventListener("load", function() {
+
+                //    document.getElementById("thumbnailImg").src = reader.result;
+
+                //    document.getElementById("thumbnailUrl").innerText = reader.result;
+
+                // }, false);
 
 
+                if (fileInfo) {
 
-            // @details readAsDataURL( )을 통해 파일의 URL을 읽어온다.
 
-            reader.readAsDataURL( fileInfo );
+                    // @details readAsDataURL( )을 통해 파일의 URL을 읽어온다.
 
-        }
+                    reader.readAsDataURL(fileInfo);
 
-    }
-    //업로드 기능 끝끝
+                }
+
+            }
+
+            //업로드 기능 끝끝
+
+            //새로 찾은 "이미지 업로드 코드" 777777777777777777777777777777777777777777777777777777777777777
+
+
+            // 파일이 추가되는 순간 addFiles 함수가 실행된다.
+            $(document).ready(function () {
+                $("#fileupload").on("change", addFiles);
+            });
+
+            var filesTempArr = [];
+
+            // 파일 추가
+            function addFiles(e) {
+                var files = e.target.files;
+                var filesArr = Array.prototype.slice.call(files);
+                var filesArrLen = filesArr.length;
+                var filesTempArrLen = filesTempArr.length;
+                for (var i = 0; i < filesArrLen; i++) {
+                    filesTempArr.push(filesArr[i]);
+                    $("#fileList").append("<div>" + filesArr[i].name + "<img src=\"/images/deleteImage.png\" onclick=\"deleteFile(event, " + (filesTempArrLen + i) + ");\"></div>");
+                }
+                $(this).val('');
+            }
+
+            // 파일 삭제
+            function deleteFile(eventParam, orderParam) {
+                filesTempArr.splice(orderParam, 1);
+                var innerHtmlTemp = "";
+                var filesTempArrLen = filesTempArr.length;
+                for (var i = 0; i < filesTempArrLen; i++) {
+                    innerHtmlTemp += "<div>" + filesTempArr[i].name + "<img src=\"/images/deleteImage.png\" onclick=\"deleteFile(event, " + i + ");\"></div>"
+                }
+                $("#fileList").html(innerHtmlTemp);
+            }
+
+            var formData = new FormData();
+
+            // 파일 데이터
+            for (var i = 0, filesTempArrLen = filesTempArr.length; i < filesTempArrLen; i++) {
+                formData.append("files", filesTempArr[i]);
+            }
+
+            formData.append("testData1", "A");
+            formData.append("testData1", "B");
+            formData.append("testData1", "C");
+
+            $.ajax({
+                type: "POST",
+                url: "/upload",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    if (data.result) {
+                        alert("Success");
+                    } else {
+                        alert(data.result);
+                    }
+
+                },
+                err: function (err) {
+                    alert(err.status);
+                }
+            });
+
+
+            //새로 찾은 "이미지 업로드 코드" 77777777777777777777777777777777끝-------------------------------------------777777777777777777777777777
+
         </script>
 
-       <!-- 이미 완성된 코드 건들지 말것1111111-->
+        <!-- 이미 완성된 코드 건들지 말것1111111-->
         <style>
             .main-wrapper {
                 width: 800px;
@@ -225,23 +286,34 @@
                 </select>
                 </p>
             </div>
-            <div>
-                <!--업로드 기능은 여기-->
-                  <!-- @breif accept 태그는 파일 업로드시 그것을 이미지 파일로 제한한다. -->
+            <!--            <div>-->
+            <!--                &lt;!&ndash;업로드 기능은 여기&ndash;&gt;-->
+            <!--                &lt;!&ndash; @breif accept 태그는 파일 업로드시 그것을 이미지 파일로 제한한다. &ndash;&gt;-->
 
-    <input type="file" id="upImgFile" onChange="uploadImgPreview();" accept="image/*" id="ImgWW">
-
-    <hr/>
-
-    <img id="thumbnailImg" src="">
-
-    <br/>
-
-    <div id="thumbnailUrl"></div>
+            <!--                <input type="file" id="upImgFile" onChange="uploadImgPreview();" accept="image/*" id="ImgWW">-->
+            <!--                -->
 
 
-            </div>
-           <button onclick="uploading()" type="button" class="btn btn-primary">
+            <!--                <hr/>-->
+
+            <!--                <img id="thumbnailImg" src="">-->
+
+            <!--                <br/>-->
+
+            <!--                <div id="thumbnailUrl"></div>-->
+            <!--&lt;!&ndash;업로드 기능은 여기 종료 1111111111111111111111111111&ndash;&gt;-->
+
+            <!--            </div>-->
+            <!--                새로 찾은 이미지 업로드 7777777777777777777777777777777777777777777777777777777777777777-->
+            <!--                // 파일 input 태그가 아래와 같이 선언되어 있고-->
+            <input name="files" id="fileupload" type="file" multiple/>
+            <!--                // 추가된 파일 이름과 삭제할 수 있는 버튼이 추가 되는곳은 아래와 같이 선언되어 있다.-->
+            <div id="fileList"></div>
+
+
+            <!--77777777777777777777777777777777777종료-7777777777777777777777777777777777-->
+
+            <button onclick="uploading()" type="button" class="btn btn-primary">
                 업로드 하기
             </button>
 
