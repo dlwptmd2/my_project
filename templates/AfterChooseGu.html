@@ -2,14 +2,34 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>M.eat.ogether-외롭지 않은 식사문화 미팃투게더</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+
+
+
+<!--        OG태그 -->
+        <meta property="og:title" content="내 사이트의 제목" />
+<meta property="og:description" content="보고 있는 페이지의 내용 요약" />
+<meta property="og:image" content="{{ url_for('static', filename='ogimage.png') }}" />
+
+
+
+
+
+
+        <title>M.eat.ogether-외롭지 않은 식사문화 미팃투게더</title>
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
               integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
               crossorigin="anonymous">
 
-<link href="https://fonts.googleapis.com/css2?family=Sunflower:wght@500&display=swap" rel="stylesheet">
+        <!-- JS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
+
+        <link href="https://fonts.googleapis.com/css2?family=Sunflower:wght@500&display=swap" rel="stylesheet">
 
         <style>.main-wrapper {
             width: 800px;
@@ -24,10 +44,83 @@
         .writingbutton {
             float: right
         }
-            .Guname{font-size: 2cm; color: #ff0000
-            }
-             *{font-family: 'Sunflower', sans-serif;}
+
+        .Guname {
+            font-size: 2cm;
+            color: #ff0000
+        }
+
+        * {
+            font-family: 'Sunflower', sans-serif;
+        }
         </style>
+
+
+        <!-- API랑 연결해서 몽고 디비에 저장된 내용 불러오기 (/showupload랑 연결      -->
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                $("#showUploads").html("");
+                showUploadMainCards();
+            });
+
+            //이게 예약한 댓글 저장하는 기능// 함수는 버튼에 적용해서 먹여 버튼 아이디 리절베이견 이딴식으로//
+
+
+            function showUploadMainCards() {
+                // 1. 리뷰 목록을 서버에 요청하기
+                // 2. 요청 성공 여부 확인하기
+                // 3. 요청 성공했을 때 리뷰를 올바르게 화면에 나타내기
+                $.ajax({
+                    type: "GET",
+                    url: "/showUpload",
+                    data: {},
+                    success: function (response) {
+
+                        // 2. 요청 성공 여부 확인하기
+                        if (response["result"] == "success") {
+                            let orders = response["DBupload"];
+                            // 3. 요청 성공했을 때 리뷰를 올바르게 화면에 나타내기
+                            for (let i = 0; i < orders.length; i++) {
+                                myReservation(orders[i]["Title"], orders[i]["Howmany"], orders[i]["Time"],
+                                    orders[i]["Price"], orders[i]["Menu"]);
+                            }
+                        } else {
+                            alert("리뷰를 받아오지 못했습니다");
+                        }
+                    }
+                })
+            }
+
+            //미ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣfor 문 돌려서 makeCard 다시 불러오기
+
+            //저장은 잘 되고 있으니 바로 위에서 for문 돌려서 아래있는 메이크 카드 불러오기
+            function MakeCards (title, howmany, time, price, menu) {
+                let tempHtml = `<tr>
+                        <td>${title}</td>
+                        <td>${howmany}</td>
+                        <td>${time}</td>
+                        <td>${price}</td>
+                        <td>${menu}</td>
+
+
+                    </tr>`;
+                $("#showUploads").append(tempHtml);
+            }
+
+
+            //미ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣ
+            function validateLength(obj) {
+                let content = $(obj).val();
+                if (content.length > 140) {
+                    alert("리뷰는 140자까지 기록할 수 있습니다.");
+                    $(obj).val(content.substring(0, content.length - 1));
+                }
+            }
+
+            //////////////////////////////////////////////////
+
+        </script>
 
 
     </head>
@@ -37,22 +130,22 @@
         <img class="main-logo" src="https://i.ibb.co/8gTpkP8/meateatogether.jpg"/>
 
 
-
-
-<p class="Guname">동대문구</p>
-        <div> <p> <h2>맞춤검색</h2>
-            <button type="button" class="writingbutton btn btn-primary">글쓰기</button></p> </div>
+        <p class="Guname">동대문구</p>
+        <div><p>
+            <h2>맞춤검색</h2>
+            <button type="button" class="writingbutton btn btn-primary">글쓰기</button>
+            </p> </div>
         <div class="col-sm-5">
             <p> 인원수 <select class="custom-select" id="order-count">
-                    <option selected value=""> 몇명이서 먹을깡?</option>
-                    <option value="1">2 명</option>
-                    <option value="2">2~3 명</option>
-                    <option value="3">3~4 명</option>
-                    <option value="4">4~5 명</option>
-                    <option value="5">5~ 명</option>
+                <option selected value=""> 몇명이서 먹을깡?</option>
+                <option value="1">2 명</option>
+                <option value="2">2~3 명</option>
+                <option value="3">3~4 명</option>
+                <option value="4">4~5 명</option>
+                <option value="5">5~ 명</option>
 
 
-                </select></p>
+            </select></p>
 
 
             <p>시간 <select class="custom-select" id="order-count">
@@ -101,23 +194,33 @@
             <div id="post-box" class="form-post">
 
             </div>
-            <div id="cards-box" class="card-columns">
+            <div id="cards-box"  class="card-columns" id="title">
                 <div class="card">
                     <img class="card-img-top"
                          src="https://www.eurail.com/content/dam/images/eurail/Italy%20OCP%20Promo%20Block.adaptive.767.1535627244182.jpg"
                          alt="Card image cap">
                     <div class="card-body">
-                        <a href="#" class="card-title">여기 기사 제목이 들어가죠</a>
+                        <a href="#" class="card-title" id="howmany">여기 기사 제목이 들어가죠</a>
                         <p class="card-text">기사의 요약 내용이 들어갑니다. 동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라만세 무궁화 삼천리 화려강산...</p>
                         <p class="card-text comment">여기에 코멘트가 들어갑니다.</p>
                     </div>
                 </div>
+
+
+
+
+
+
+
+
+
+
                 <div class="card">
                     <img class="card-img-top"
                          src="https://www.eurail.com/content/dam/images/eurail/Italy%20OCP%20Promo%20Block.adaptive.767.1535627244182.jpg"
                          alt="Card image cap">
                     <div class="card-body">
-                        <a href="#" class="card-title">여기 기사 제목이 들어가죠</a>
+                        <a href="#" class="card-title" id="title">여기에 몽고 디비 저장된 타이틀 뜸</a>
                         <p class="card-text">기사의 요약 내용이 들어갑니다. 동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라만세 무궁화 삼천리 화려강산...</p>
                         <p class="card-text comment">여기에 코멘트가 들어갑니다.</p>
                     </div>
