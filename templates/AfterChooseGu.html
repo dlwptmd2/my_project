@@ -67,6 +67,8 @@
             //이게 예약한 댓글 저장하는 기능// 함수는 버튼에 적용해서 먹여 버튼 아이디 리절베이견 이딴식으로//
 
 
+
+
             function showUploadMainCards() {
                 // 1. 리뷰 목록을 서버에 요청하기
                 // 2. 요청 성공 여부 확인하기
@@ -109,14 +111,63 @@
             }
 
 
-            //미ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣ
-            function validateLength(obj) {
-                let content = $(obj).val();
-                if (content.length > 140) {
-                    alert("리뷰는 140자까지 기록할 수 있습니다.");
-                    $(obj).val(content.substring(0, content.length - 1));
+
+            //////////////////////////////////////////
+
+
+
+ $(document).ready(function () {
+            $("#cards-box").empty();
+            showPost();
+        });
+
+        function showPost() {
+            $.ajax({
+                type: "GET",
+                url: "http://spartacodingclub.shop/post",
+                data: {},
+                success: function (response) {
+                    let articles = response["articles"];
+                    for (let i = 0; i < articles.length; i++) {
+                        let article = articles[i];
+                        makeCard(article["image"], article["url"], article["title"], article["desc"], article["comment"])
+                    }
                 }
-            }
+            });
+        }
+
+        function makeCard(image, url, title,  desc, comment) {
+            let tempHtml = `<div class="card">
+                                <img class="card-img-top" src="${image}" alt="Card image cap">
+                                <div class="card-body">
+                                    <a href="${url}" target="_blank" class="card-title">${title}</a>
+                                    <p class="card-text">${desc}</p>
+                                    <p class="card-text comment">${comment}</p>
+                                </div>
+                            </div>`;
+            $("#cards-box").append(tempHtml);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             //////////////////////////////////////////////////
 
