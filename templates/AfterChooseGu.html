@@ -53,61 +53,9 @@
         <!-- API랑 연결해서 몽고 디비에 저장된 내용 불러오기 (/showupload랑 연결      -->
         <script type="text/javascript">
 
-            $(document).ready(function () {
-                $("#showUploads").html("");
-                showUploadMainCards();
-            });
+         
 
             //이게 예약한 댓글 저장하는 기능// 함수는 버튼에 적용해서 먹여 버튼 아이디 리절베이견 이딴식으로//
-
-
-
-
-
-
-
-
-            function showUploadMainCards() {
-                // 1. 리뷰 목록을 서버에 요청하기
-                // 2. 요청 성공 여부 확인하기
-                // 3. 요청 성공했을 때 리뷰를 올바르게 화면에 나타내기
-                $.ajax({
-                    type: "GET",
-                    url: "/showUpload",
-                    data: {},
-                    success: function (response) {
-
-                        // 2. 요청 성공 여부 확인하기
-                        if (response["result"] == "success") {
-                            let orders = response["DBupload"];
-                            // 3. 요청 성공했을 때 리뷰를 올바르게 화면에 나타내기
-                            for (let i = 0; i < orders.length; i++) {
-                                myReservation(orders[i]["Title"], orders[i]["Howmany"], orders[i]["Time"],
-                                    orders[i]["Price"], orders[i]["Menu"]);
-                            }
-                        } else {
-                            alert("리뷰를 받아오지 못했습니다");
-                        }
-                    }
-                })
-            }
-
-            //미ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣfor 문 돌려서 makeCard 다시 불러오기
-
-            //저장은 잘 되고 있으니 바로 위에서 for문 돌려서 아래있는 메이크 카드 불러오기
-            function MakeCards(title, howmany, time, price, menu) {
-                let tempHtml = `<tr>
-                        <td>${title}</td>
-                        <td>${howmany}</td>
-                        <td>${time}</td>
-                        <td>${price}</td>
-                        <td>${menu}</td>
-
-
-                    </tr>`;
-                $("#showUploads").append(tempHtml);
-            }
-
 
             /////////////////아래꺼 자동 카드 만들어지기에서 가져온 거야 이걸로 우선 개발해/////////////////////////
 
@@ -137,11 +85,11 @@
                 let tempHtml = `<div class="card">
                                 <img class="card-img-top" src="${img}" alt="Card image cap">
                                 <div class="card-body">
-                                    <a href="${url}" target="_blank" class="card-title">${title}</a>
+                                    <a href="${}" target="_blank" class="card-title">${title}</a>
                                     <p class="card-text">${time}</p>
                                      <p class="card-text">${price}</p>
                                       <p class="card-text">${menu}</p>
-                                    <p class="card-text comment">${comment}</p>
+                                    <!-- <p class="card-text comment">${comment}</p>-->
                                 </div>
                             </div>`;
                 $("#cards-box").append(tempHtml);
