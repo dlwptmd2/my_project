@@ -5,16 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 
-
-
-<!--        OG태그 -->
-        <meta property="og:title" content="내 사이트의 제목" />
-<meta property="og:description" content="보고 있는 페이지의 내용 요약" />
-<meta property="og:image" content="{{ url_for('static', filename='ogimage.png') }}" />
-
-
-
-
+        <!--        OG태그 -->
+        <meta property="og:title" content="내 사이트의 제목"/>
+        <meta property="og:description" content="보고 있는 페이지의 내용 요약"/>
+        <meta property="og:image" content="{{ url_for('static', filename='ogimage.png') }}"/>
 
 
         <title>M.eat.ogether-외롭지 않은 식사문화 미팃투게더</title>
@@ -69,6 +63,10 @@
 
 
 
+
+
+
+
             function showUploadMainCards() {
                 // 1. 리뷰 목록을 서버에 요청하기
                 // 2. 요청 성공 여부 확인하기
@@ -97,7 +95,7 @@
             //미ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣfor 문 돌려서 makeCard 다시 불러오기
 
             //저장은 잘 되고 있으니 바로 위에서 for문 돌려서 아래있는 메이크 카드 불러오기
-            function MakeCards (title, howmany, time, price, menu) {
+            function MakeCards(title, howmany, time, price, menu) {
                 let tempHtml = `<tr>
                         <td>${title}</td>
                         <td>${howmany}</td>
@@ -111,62 +109,43 @@
             }
 
 
-
-            //////////////////////////////////////////
-
+            /////////////////아래꺼 자동 카드 만들어지기에서 가져온 거야 이걸로 우선 개발해/////////////////////////
 
 
- $(document).ready(function () {
-            $("#cards-box").empty();
-            showPost();
-        });
-
-        function showPost() {
-            $.ajax({
-                type: "GET",
-                url: "http://spartacodingclub.shop/post",
-                data: {},
-                success: function (response) {
-                    let articles = response["articles"];
-                    for (let i = 0; i < articles.length; i++) {
-                        let article = articles[i];
-                        makeCard(article["image"], article["url"], article["title"], article["desc"], article["comment"])
-                    }
-                }
+            $(document).ready(function () {
+                $("#cards-box").empty();
+                showPost();
             });
-        }
 
-        function makeCard(image, url, title,  desc, comment) {
-            let tempHtml = `<div class="card">
-                                <img class="card-img-top" src="${image}" alt="Card image cap">
+            function showPost() {
+                $.ajax({
+                    type: "GET",
+                    url: "/showUpload",
+                    data: {},
+                    success: function (response) {
+                        let orders = response["DBupload"];
+                        for (let i = 0; i < orders.length; i++) {
+                            myReservation(orders[i]["Title"], orders[i]["Howmany"], orders[i]["Time"],
+                                orders[i]["Price"], orders[i]["Menu"]);
+
+                        }
+                    }
+                });
+            }
+
+            function myReservation(title, howmany, time, price, menu,img) {
+                let tempHtml = `<div class="card">
+                                <img class="card-img-top" src="${img}" alt="Card image cap">
                                 <div class="card-body">
                                     <a href="${url}" target="_blank" class="card-title">${title}</a>
-                                    <p class="card-text">${desc}</p>
+                                    <p class="card-text">${time}</p>
+                                     <p class="card-text">${price}</p>
+                                      <p class="card-text">${menu}</p>
                                     <p class="card-text comment">${comment}</p>
                                 </div>
                             </div>`;
-            $("#cards-box").append(tempHtml);
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                $("#cards-box").append(tempHtml);
+            }
 
 
             //////////////////////////////////////////////////
@@ -187,7 +166,7 @@
             <button type="button" class="writingbutton btn btn-primary">글쓰기</button>
             </p> </div>
         <div class="col-sm-5">
-            <p> 인원수 <select class="custom-select" id="order-count">
+            <p> 인원수 <select class="custom-select" >
                 <option selected value=""> 몇명이서 먹을깡?</option>
                 <option value="1">2 명</option>
                 <option value="2">2~3 명</option>
@@ -199,7 +178,7 @@
             </select></p>
 
 
-            <p>시간 <select class="custom-select" id="order-count">
+            <p>시간 <select class="custom-select" >
                 <option selected value=""> 우리 언제 먹을깡?</option>
                 <option value="1">오전 10~12시</option>
                 <option value="2">오후 12 ~ 2시</option>
@@ -213,7 +192,7 @@
 
             </select>
             </p>
-            <p>가격 <select class="custom-select" id="order-count">
+            <p>가격 <select class="custom-select" >
                 <option selected value=""> 가격대는 어느정도??</option>
                 <option value="1">8000 이하</option>
                 <option value="2">8000~12000</option>
@@ -224,7 +203,7 @@
 
             </select>
             </p>
-            <p>메뉴 <select class="custom-select" id="order-count">
+            <p>메뉴 <select class="custom-select" >
                 <option selected value=""> 우리 뭐 먹을깡?</option>
                 <option value="1">소고기</option>
                 <option value="2">돼지고기</option>
@@ -245,7 +224,7 @@
             <div id="post-box" class="form-post">
 
             </div>
-            <div id="cards-box"  class="card-columns" id="title">
+            <div id="cards-box" class="card-columns">
                 <div class="card">
                     <img class="card-img-top"
                          src="https://www.eurail.com/content/dam/images/eurail/Italy%20OCP%20Promo%20Block.adaptive.767.1535627244182.jpg"
@@ -258,20 +237,12 @@
                 </div>
 
 
-
-
-
-
-
-
-
-
                 <div class="card">
                     <img class="card-img-top"
                          src="https://www.eurail.com/content/dam/images/eurail/Italy%20OCP%20Promo%20Block.adaptive.767.1535627244182.jpg"
                          alt="Card image cap">
                     <div class="card-body">
-                        <a href="#" class="card-title" id="title">여기에 몽고 디비 저장된 타이틀 뜸</a>
+                        <a href="#" class="card-title" id="">여기에 몽고 디비 저장된 타이틀 뜸</a>
                         <p class="card-text">기사의 요약 내용이 들어갑니다. 동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라만세 무궁화 삼천리 화려강산...</p>
                         <p class="card-text comment">여기에 코멘트가 들어갑니다.</p>
                     </div>
